@@ -1,0 +1,6 @@
+module_logs = "Logs"
+view_logs = "View logs"
+err_log_file = "The logfile does not exist or is not accessible."
+mail_logs_archive_subject = "Log archive"
+mail_logs_archive_body = "The archived logfiles are attached."
+err_log_file_too_large = "The logfile is too large to display (%s bytes; limit %s bytes)."
