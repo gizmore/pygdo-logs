@@ -7,6 +7,7 @@ from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
 
 from gdo.core.GDO_User import GDO_User
+from gdo.mail.Mail import Mail
 
 
 @dataclass(frozen=True)
@@ -74,7 +75,7 @@ class LogFiles:
             raise ValueError(f'Log archive input exceeds limit: {total} > {max_bytes}.')
         archive_dir = self.root / 'archive'
         archive_dir.mkdir(parents=True, exist_ok=True)
-        target = archive_dir / f'logs-{datetime.now():%Y%m%dT%H%M%S}.zip'
+        target = archive_dir / f'logs-{datetime.now():%Y%m%dT%H%M%S%f}.zip'
         try:
             with ZipFile(target, 'x', ZIP_DEFLATED) as archive:
                 for path in files:
@@ -92,6 +93,24 @@ class LogFiles:
     def remove(files: list[Path]):
         for path in files:
             path.unlink()
+
+    def compress(self, user: GDO_User, filename: str, remove: bool = False, max_bytes: int = 0) -> Path:
+        path = self.resolve(user, filename)
+        archive = self.archive([path], max_bytes)
+        if remove:
+            self.remove([path])
+        return archive
+
+    def mail(self, user: GDO_User, filename: str, recipient: str, max_bytes: int = 0) -> bool:
+        path = self.resolve(user, filename)
+        if max_bytes and path.stat().st_size > max_bytes:
+            raise ValueError(f'Log mail attachment exceeds limit: {path.stat().st_size} > {max_bytes}.')
+        return (Mail.from_bot()
+                .recipient(recipient)
+                .subject(f'Logfile: {path.name}')
+                .body('The requested logfile is attached.')
+                .attachment(path, path.name)
+                .send())
 
     @staticmethod
     def _contained(path: Path, root: Path):

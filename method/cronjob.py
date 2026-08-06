@@ -11,7 +11,7 @@ class cronjob(MethodCronjob):
         return self.run_daily_at(0, 17)
 
     def gdo_execute(self) -> GDT:
-        mod = moself._module
+        mod = self._module
         service = LogFiles.from_module(mod)
         files = service.old_files(mod.cfg_archive_after_days())
         if not files:

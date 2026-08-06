@@ -19,7 +19,11 @@ class compress(UserFileMethod):
     def gdo_execute(self):
         try:
             target = self.logs().compress(
-                self.get_target_user(), self.param_val('file'), self.param_value('remove'))
+                self.get_target_user(),
+                self.param_val('file'),
+                self.param_value('remove'),
+                self._module.cfg_max_archive_bytes(),
+            )
         except (ValueError, FileNotFoundError):
             return self.error('err_log_file')
         return self.msg('msg_log_compressed', (target.name,))

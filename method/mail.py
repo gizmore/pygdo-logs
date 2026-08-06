@@ -9,7 +9,12 @@ class mail(UserFileMethod):
 
     def gdo_execute(self):
         try:
-            self.logs().mail(self.get_target_user(), self.param_val('file'), self.param_val('email'))
+            self.logs().mail(
+                self.get_target_user(),
+                self.param_val('file'),
+                self.param_val('email'),
+                self._module.cfg_max_mail_bytes(),
+            )
         except (ValueError, FileNotFoundError):
             return self.error('err_log_file')
         return self.msg('msg_log_mailed')
