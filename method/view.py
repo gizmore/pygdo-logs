@@ -2,7 +2,7 @@ from gdo.base.Application import Application
 from gdo.core.GDT_String import GDT_String
 from gdo.file.GDT_FileOut import GDT_FileOut
 from gdo.logs.LogFiles import LogFiles
-from gdo.logs.method._user import UserMethod
+from gdo.logs.UserMethod import UserMethod
 
 
 class view(UserMethod):

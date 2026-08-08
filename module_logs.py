@@ -1,4 +1,5 @@
 from gdo.base.GDO_Module import GDO_Module
+from gdo.base.GDT import GDT
 from gdo.base.Logger import Logger
 from gdo.base.util.href import href
 from gdo.core.GDT_Bool import GDT_Bool
@@ -6,6 +7,11 @@ from gdo.core.GDT_Int import GDT_Int
 from gdo.core.GDT_Path import GDT_Path
 from gdo.mail.GDT_Email import GDT_Email
 from gdo.ui.GDT_Link import GDT_Link
+
+
+from typing_extensions import TYPE_CHECKING
+if TYPE_CHECKING:
+    from gdo.core.GDO_User import GDO_User
 
 
 class module_logs(GDO_Module):
@@ -49,5 +55,7 @@ class module_logs(GDO_Module):
     def cfg_max_mail_bytes(self) -> int:
         return int(self.get_config_val('max_mail_bytes'))
 
-    def gdo_user_profile_fields(self, user) -> list:
-        return [GDT_Link().href(href('logs', 'list', f'&user={user.get_id()}')).text('view_logs')]
+    def gdo_profile_links(self, user: 'GDO_User') -> list[GDT]:
+        return [
+            GDT_Link('view_logs').href(href('logs', 'list', f'&user={user.get_id()}')).text('view_logs'),
+        ]

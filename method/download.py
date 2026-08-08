@@ -1,6 +1,6 @@
 from gdo.base.Application import Application
 from gdo.file.GDT_FileOut import GDT_FileOut
-from gdo.logs.method._user_file import UserFileMethod
+from gdo.logs.UserFileMethod import UserFileMethod
 
 
 class download(UserFileMethod):

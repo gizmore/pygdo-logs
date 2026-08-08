@@ -1,5 +1,5 @@
 from gdo.core.GDT_Bool import GDT_Bool
-from gdo.logs.method._user_file import UserFileMethod
+from gdo.logs.UserFileMethod import UserFileMethod
 
 
 class compress(UserFileMethod):
@@ -9,12 +9,6 @@ class compress(UserFileMethod):
 
     def gdo_has_permission(self, user) -> bool:
         return user.is_admin()
-
-    def has_permission(self, user, display_error: bool = True) -> bool:
-        allowed = user.is_admin()
-        if not allowed and display_error:
-            self.err('err_permissions')
-        return allowed
 
     def gdo_execute(self):
         try:

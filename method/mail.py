@@ -1,4 +1,4 @@
-from gdo.logs.method._user_file import UserFileMethod
+from gdo.logs.UserFileMethod import UserFileMethod
 from gdo.mail.GDT_Email import GDT_Email
 
 

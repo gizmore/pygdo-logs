@@ -3,11 +3,11 @@ from datetime import datetime
 
 from gdo.base.util.href import href
 from gdo.logs.LogFiles import LogFiles
-from gdo.logs.method._user import UserMethod
+from gdo.logs.UserMethod import UserMethod
 from gdo.message.GDT_HTML import GDT_HTML
 
 
-class list(UserMethod):
+class files(UserMethod):
     def gdo_execute(self):
         target = self.get_target_user()
         rows = []
