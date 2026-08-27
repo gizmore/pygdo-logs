@@ -4,6 +4,12 @@ from gdo.core.GDT_User import GDT_User
 
 
 class UserMethod(Method):
+    def gdo_connectors(self) -> str:
+        return 'web'
+
+    def gdo_method_hidden(self) -> bool:
+        return True
+
     def gdo_user_type(self) -> str:
         return 'member,guest,link'
 

@@ -7,6 +7,9 @@ from gdo.mail.Mail import Mail
 
 
 class cronjob(MethodCronjob):
+    def gdo_connectors(self) -> str:
+        return 'web'
+
     def gdo_run_at(self) -> str:
         return self.run_daily_at(0, 17)
 
