@@ -21,7 +21,7 @@ class module_logs(GDO_Module):
 
     def gdo_module_config(self) -> list:
         return [
-            GDT_Path('logs_path').not_null().initial(Logger._base or 'protected/logs/'),
+            GDT_Path('logs_path').not_null().initial(Logger._base or 'protected/logs/').existing_dir(),
             GDT_Int('archive_after_days').min(1).initial('7'),
             GDT_Bool('archive_mail').initial('0'),
             GDT_Email('archive_mail_address'),
@@ -57,5 +57,5 @@ class module_logs(GDO_Module):
 
     def gdo_profile_links(self, user: 'GDO_User') -> list[GDT]:
         return [
-            GDT_Link('view_logs').href(href('logs', 'list', f'&user={user.get_id()}')).text('view_logs'),
+            GDT_Link('view_logs').href(href('logs', 'files', f'&user={user.get_id()}')).text('view_logs'),
         ]
