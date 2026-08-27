@@ -48,13 +48,13 @@ class module_logs(GDO_Module):
         return self.get_config_val('archive_keep') == '1'
 
     def cfg_max_view_bytes(self) -> int:
-        return int(self.get_config_val('max_view_bytes'))
+        return self.get_config_value('max_view_bytes')
 
     def cfg_max_archive_bytes(self) -> int:
-        return int(self.get_config_val('max_archive_bytes'))
+        return self.get_config_value('max_archive_bytes')
 
     def cfg_max_mail_bytes(self) -> int:
-        return int(self.get_config_val('max_mail_bytes'))
+        return self.get_config_value('max_mail_bytes')
 
     def gdo_profile_links(self, user: 'GDO_User') -> list[GDT]:
         return [
