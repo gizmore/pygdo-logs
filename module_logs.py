@@ -1,10 +1,11 @@
+from gdo.base.Application import Application
 from gdo.base.GDO_Module import GDO_Module
 from gdo.base.GDT import GDT
-from gdo.base.Logger import Logger
 from gdo.base.util.href import href
 from gdo.core.GDT_Bool import GDT_Bool
 from gdo.core.GDT_Int import GDT_Int
 from gdo.core.GDT_Path import GDT_Path
+from gdo.file.GDT_FileSize import GDT_FileSize
 from gdo.mail.GDT_Email import GDT_Email
 from gdo.ui.GDT_Link import GDT_Link
 
@@ -21,14 +22,14 @@ class module_logs(GDO_Module):
 
     def gdo_module_config(self) -> list:
         return [
-            GDT_Path('logs_path').not_null().initial(Logger._base or 'protected/logs/').existing_dir(),
+            GDT_Path('logs_path').not_null().initial(Application.config('dir.logs')).existing_dir(),
             GDT_Int('archive_after_days').min(1).initial('7'),
             GDT_Bool('archive_mail').initial('0'),
-            GDT_Email('archive_mail_address'),
+            GDT_Email('archive_mail_address').initial(Application.config('mail.errors_to')),
             GDT_Bool('archive_keep').initial('1'),
-            GDT_Int('max_view_bytes').min(1024).initial(str(8 * 1024 * 1024)),
-            GDT_Int('max_archive_bytes').min(1024).initial(str(128 * 1024 * 1024)),
-            GDT_Int('max_mail_bytes').min(1024).initial(str(20 * 1024 * 1024)),
+            GDT_FileSize('max_view_bytes').min(1024).initial_value((8 * 1024 * 1024)),
+            GDT_FileSize('max_archive_bytes').min(1024).initial_value((128 * 1024 * 1024)),
+            GDT_FileSize('max_mail_bytes').min(1024).initial_value((20 * 1024 * 1024)),
         ]
 
     def cfg_logs_path(self) -> str:
