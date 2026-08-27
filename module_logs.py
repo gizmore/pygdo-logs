@@ -56,7 +56,14 @@ class module_logs(GDO_Module):
     def cfg_max_mail_bytes(self) -> int:
         return self.get_config_value('max_mail_bytes')
 
-    def gdo_profile_links(self, user: 'GDO_User') -> list[GDT]:
-        return [
-            GDT_Link('view_logs').href(href('logs', 'files', f'&user={user.get_id()}')).text('view_logs'),
-        ]
+    def gdo_subscribe_events(self):
+        Application.EVENTS.subscribe('user_profile_links', self.on_user_profile_links)
+
+    def on_user_profile_links(self, user: 'GDO_User', links):
+        """Keep the private log action beside the avatar, not in profile data."""
+        from gdo.core.GDO_User import GDO_User
+        viewer = GDO_User.current()
+        if viewer.get_id() == user.get_id() or viewer.is_admin():
+            links.add_field(
+                GDT_Link('view_logs').href(href('logs', 'files', f'&user={user.get_id()}')).icon('view').text('view_logs')
+            )
